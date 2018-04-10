@@ -11,10 +11,10 @@ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
 
-PATH="~/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
+PATH="$HOME/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
+PATH+=":$HOME/.cargo/bin"
 PATH+=":$GEM_HOME/bin"
-PATH+=":$(/usr/local/bin/python2 -c 'import site; print(site.getuserbase())')/bin"
-PATH+=":$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
+PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH
 
@@ -40,6 +40,24 @@ shopt -s cmdhist
 shopt -s lithist
 shopt -s histappend
 
+##########
+#  Misc  #
+##########
+shopt -s checkjobs 2>/dev/null
+shopt -s checkwinsize
+shopt -s globstar 2>/dev/null
+stty -ixoff -ixon # disable flow control
+
+if [ -f /usr/local/etc/bash_completion ]; then
+  . /usr/local/etc/bash_completion
+fi
+
+source ~/.local/opt/fzftools/fzftools.bash
+
+if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
+  echo "[NOTICE] zsh is available on this system." >&2
+fi
+
 ###########
 #  Theme  #
 ###########
@@ -47,34 +65,20 @@ shopt -s histappend
 
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
-else
-  prompt_color='\[\033[1m\]'
-  prompt_login='\u'
-  prompt_title=''
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    prompt_color='\[\033[1;32m\]'
-    prompt_login+='@\h'
-    prompt_title='\[\e]0;\u@\h:\w\a\]'
-  fi
-  if [[ $EUID -eq 0 ]]; then
-    prompt_color='\[\033[1;31m\]'
-  fi
-  PS1=$prompt_title$prompt_color$prompt_login
-  PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
-  unset prompt_color prompt_login prompt_title
+  return
 fi
 
-##########
-#  Misc  #
-##########
-shopt -s checkjobs
-shopt -s checkwinsize
-shopt -s globstar
-
-if [ -f /usr/local/etc/bash_completion ]; then
-  . /usr/local/etc/bash_completion
+__prompt_color='\[\033[1m\]'
+__prompt_login='\u'
+__prompt_title=''
+if [[ -n "$SSH_CONNECTION" ]]; then
+  __prompt_color='\[\033[1;32m\]'
+  __prompt_login+='@\h'
+  __prompt_title='\[\e]0;\u@\h:\w\a\]'
 fi
-
-if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
-  echo "[NOTICE] zsh is available on this system." >&2
+if [[ $EUID -eq 0 ]]; then
+  __prompt_color='\[\033[1;31m\]'
 fi
+PS1=$__prompt_title$__prompt_color$__prompt_login
+PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
+unset __prompt_color __prompt_login __prompt_title
