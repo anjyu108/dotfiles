@@ -34,6 +34,9 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
+alias emacs='emacs -nw'
+alias ema='emacs -nw'
+alias emacsgui='\emacs'
 autoload -Uz zmv
 autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
