@@ -50,6 +50,7 @@ alias gits="git status"
 alias gitd="git diff"
 alias gitc="git checkout"
 alias gitm="git commit"
+alias dc="cd'
 autoload -Uz zmv
 autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen

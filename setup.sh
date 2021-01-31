@@ -118,11 +118,32 @@ setup::deps() {
     vim
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
-  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb\
-      && sudo dpkg -i ripgrep_11.0.2_amd64.deb
-  wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb\
-       && sudo dpkg -i bat_0.12.1_amd64.deb
-  rm ripgrep_11.0.2_amd64.deb
+
+  # install architecture related package
+  arch=$(uname -i)
+  if [ "$arch" == 'x86_64' ];
+  then
+     echo "x64 Architecture"
+     # riggrep
+     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb \
+      && sudo dpkg -i ripgrep_12.1.1_amd64.deb
+     # bat
+     wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb \
+      && sudo dpkg -i bat_0.12.1_amd64.deb
+     rm ripgrep_11.0.2_amd64.deb
+     # fd
+     curl -OL https://github.com/sharkdp/fd/releases/download/v8.2.1/fd_8.2.1_amd64.deb \
+      && sudo dpkg -i fd_8.2.1_amd64.deb
+  else;
+  then
+     # riggrep
+     cargo install --locked ripgrep
+     # bat
+     cargo install --locked bat
+     # fd
+     cargo install --locked fd-find
+  fi
+
   emacs --script install.el
   git clone  --depth 1 https://github.com/eth-p/bat-extras.git\
       && sudo ./bat-extras/build.sh --install
