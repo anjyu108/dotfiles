@@ -113,7 +113,9 @@ setup::deps() {
     zsh-syntax-highlighting\
     emacs\
     ruby\
-    htop
+    htop \
+    curl \
+    vim
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
   curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb\
