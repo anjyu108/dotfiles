@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uxe
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOGFILE="$(mktemp)"
@@ -27,6 +28,8 @@ main() {
   done
 
   cd "$DOTFILE_DIR"
+
+  sudo apt update && sudo apt install -y git
 
   echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
   git submodule update --init --remote
@@ -115,9 +118,14 @@ setup::deps() {
     ruby\
     htop \
     curl \
-    vim
+    vim \
+    wget \
+    python3-dev \
+    net-tools \
+    openssh-server
+  sudo mkdir -p /var/run/sshd
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
-  curl https://sh.rustup.rs -sSf | sh
+  curl https://sh.rustup.rs -sSf | sh -s -- -y
 
   # install architecture related package
   arch=$(uname -i)
@@ -127,15 +135,15 @@ setup::deps() {
      # riggrep
      curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb \
       && sudo dpkg -i ripgrep_12.1.1_amd64.deb
+     rm ripgrep_12.1.1_amd64.deb
      # bat
      wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb \
       && sudo dpkg -i bat_0.12.1_amd64.deb
-     rm ripgrep_11.0.2_amd64.deb
+     rm bat_0.12.1_amd64.deb
      # fd
      curl -OL https://github.com/sharkdp/fd/releases/download/v8.2.1/fd_8.2.1_amd64.deb \
       && sudo dpkg -i fd_8.2.1_amd64.deb
-  else;
-  then
+  else
      # riggrep
      cargo install --locked ripgrep
      # bat
@@ -147,7 +155,8 @@ setup::deps() {
   emacs --script install.el
   git clone  --depth 1 https://github.com/eth-p/bat-extras.git\
       && sudo ./bat-extras/build.sh --install
-  sudo apt install fzf
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --all
   mkdir -p ~/.vim/autoload && \
       curl https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.vim/autoload/plug.vim
   vim -c PlugInstall -c q -c q

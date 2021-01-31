@@ -12,7 +12,3 @@
 (dolist (pkg my-favorite-package-list)
   (unless (package-installed-p pkg)
     (package-install pkg)))
-
-;;; web-mode
-(require 'web-mode)
-;; 以下web-modeの設定
