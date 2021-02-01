@@ -124,7 +124,7 @@ setup::deps() {
     net-tools \
     openssh-server
   sudo mkdir -p /var/run/sshd
-  sudo ln -s /usr/bin/nodejs /usr/local/bin/node
+  sudo ln -fs /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh -s -- -y
 
   # install architecture related package

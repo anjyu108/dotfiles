@@ -26,7 +26,7 @@ path=(
 ###########################
 #  Aliases and Functions  #
 ###########################
-# unalias run-help
+alias sudo="sudo"
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -50,7 +50,7 @@ alias gits="git status"
 alias gitd="git diff"
 alias gitc="git checkout"
 alias gitm="git commit"
-alias dc="cd'
+alias dc="cd"
 autoload -Uz zmv
 autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
