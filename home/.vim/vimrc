@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 " Plug 'rdnetto/YCM-generator', {'branch': 'stable',
 " \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'cohama/lexima.vim'
 
 " utilities
 Plug 'direnv/direnv.vim'
