@@ -155,6 +155,7 @@ endfor
 "  Keybindings  "
 """""""""""""""""
 let mapleader="\<Space>"
+inoremap <silent> jj <ESC>
 " let maplocalleader="\<Space>\<Space>"
 " XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
 " nnoremap <Space> \
