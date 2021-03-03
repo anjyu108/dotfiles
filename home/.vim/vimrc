@@ -126,6 +126,7 @@ set title
 " colors
 syntax enable
 set cursorline
+set cursorcolumn
 colorscheme molokai
 
 set number
