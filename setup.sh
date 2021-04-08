@@ -160,6 +160,12 @@ setup::deps() {
   mkdir -p ~/.vim/autoload && \
       curl https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.vim/autoload/plug.vim
   vim -c PlugInstall -c q -c q
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+  cp patches/tmux-logging-nobuffer.patch ~/.tmux/plugins/tmux-logging/.
+  pushd ~/.tmux/plugins/tmux-logging/.
+  patch -p1 < patches/tmux-logging-nobuffer.patch
+  popd
 }
 
 ######################
